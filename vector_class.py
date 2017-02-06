@@ -48,6 +48,20 @@ class Vector(object):
         theta = np.arccos(theta_term)
         return theta
 
+    def is_parallel_no_merge_conflicts_please(self, v1): 
+        # Get the first ratio of the coordinate points
+        scalar0 = self.coordinates[0]/v1.coordinates[0]
+        print "scalar0: ", scalar0
+        # iterate over the rest of the points
+        for point in range(1,len(self.coordinates)): 
+            scalar1 = self.coordinates[point]/v1.coordinates[point]
+            print "scalar1: ", scalar1
+            # if at any point the ratio of the points is not the same, return false
+            # note that they can be negative; but it has to be consistently negative so I should fix this. 
+            if scalar0 != scalar1 and scalar0 != -scalar1: 
+                return False
+        return True
+
     def __str__(self):
         return 'Vector: {}'.format(self.coordinates)
 
