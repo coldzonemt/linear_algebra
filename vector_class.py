@@ -54,29 +54,31 @@ class Vector(object):
             return (theta_radians, theta_degrees)
 
     def is_parallel(self, v1):
-        # print self.angle_btwn_vectors(v1) 
-        if self.angle_btwn_vectors(v1)[1] == 90: 
-            return True
-        else: 
-            return False 
+        """A method to determine if one vector is parallel to another.  
+           (commented code is a first draft that is less elegant, but illustrates
+            another way to solve the problem by checking the ratio of each vector coordinate)"""
+        return (self.is_zero() or v1.is_zero() or (self.angle_btwn_vectors(v1) == 0) or (self.angle_btwn_vectors(v1) == math.pi))
+        
+        # # Get the first ratio of the coordinate points
+        # scalar0 = self.coordinates[0]/v1.coordinates[0]
+        # # iterate over the rest of the points
+        # for point in range(1,len(self.coordinates)): 
+        #     scalar1 = self.coordinates[point]/v1.coordinates[point]
+        #     # if at any point the ratio of the points is not the same, return false
+        #     # note that they can be negative; but it has to be consistently negative so I should fix this. 
+        #     if scalar0 != scalar1 and scalar0 != -scalar1: 
+        #         return False
+        # return True
 
-    def is_orthogonal(self, v1):
-        # print self.dot_product(v1) 
-        return self.dot_product(v1) == 0
+    def is_orthogonal(self, v1, limit=1E-10):
+        """A method to determine if one vector is orthogonal to another.
+           Because of the Decimal library, I am setting a default cut-off of 1E-15  """
+        return  abs(self.dot_product(v1)) <= limit
 
-    def is_parallel_no_merge_conflicts_please(self, v1): 
-        # Get the first ratio of the coordinate points
-        scalar0 = self.coordinates[0]/v1.coordinates[0]
-        print "scalar0: ", scalar0
-        # iterate over the rest of the points
-        for point in range(1,len(self.coordinates)): 
-            scalar1 = self.coordinates[point]/v1.coordinates[point]
-            print "scalar1: ", scalar1
-            # if at any point the ratio of the points is not the same, return false
-            # note that they can be negative; but it has to be consistently negative so I should fix this. 
-            if scalar0 != scalar1 and scalar0 != -scalar1: 
-                return False
-        return True
+    def is_zero(self, tolerance=1E-10): 
+        """A helper method determining if a vector is a zero vector or not 
+           with 1E-10"""
+        return self.magnitude() < tolerance
 
     def __str__(self):
         return 'Vector: {}'.format(self.coordinates)
