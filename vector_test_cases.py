@@ -34,6 +34,11 @@ print v4.is_parallel(w4)
 # v4= Vector([7.35, 0.221, 5.188])
 # w4 = Vector([2.751, 8.259, 3.985])
 
+print v1.is_orthogonal(w1)
+print v2.is_orthogonal(w2)
+print v3.is_orthogonal(w3)
+print v4.is_orthogonal(w4)
+
 # print v1.dot_product(w1)
 # print v2.dot_product(w2)
 
