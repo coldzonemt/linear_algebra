@@ -54,21 +54,8 @@ class Vector(object):
             return (theta_radians, theta_degrees)
 
     def is_parallel(self, v1):
-        """A method to determine if one vector is parallel to another.  
-           (commented code is a first draft that is less elegant, but illustrates
-            another way to solve the problem by checking the ratio of each vector coordinate)"""
+        """A method to determine if one vector is parallel to another"""
         return (self.is_zero() or v1.is_zero() or (self.angle_btwn_vectors(v1) == 0) or (self.angle_btwn_vectors(v1) == math.pi))
-        
-        # # Get the first ratio of the coordinate points
-        # scalar0 = self.coordinates[0]/v1.coordinates[0]
-        # # iterate over the rest of the points
-        # for point in range(1,len(self.coordinates)): 
-        #     scalar1 = self.coordinates[point]/v1.coordinates[point]
-        #     # if at any point the ratio of the points is not the same, return false
-        #     # note that they can be negative; but it has to be consistently negative so I should fix this. 
-        #     if scalar0 != scalar1 and scalar0 != -scalar1: 
-        #         return False
-        # return True
 
     def is_orthogonal(self, v1, limit=1E-10):
         """A method to determine if one vector is orthogonal to another.
@@ -76,9 +63,15 @@ class Vector(object):
         return  abs(self.dot_product(v1)) <= limit
 
     def is_zero(self, tolerance=1E-10): 
-        """A helper method determining if a vector is a zero vector or not 
-           with 1E-10"""
+        """A method that determines if a vector is a zero vector or not with a default tolerance of 1E-10"""
         return self.magnitude() < tolerance
+
+    def get_projection(self, v): 
+        """A method that finds the projection of vector v on the basis vector self """
+        return True
+
+    def orhogonal_component(self, v): 
+        """A method that returns the orthogonal component or something """
 
     def __str__(self):
         return 'Vector: {}'.format(self.coordinates)
