@@ -67,8 +67,18 @@ class Vector(object):
         return self.magnitude() < tolerance
 
     def get_projection(self, v): 
-        """A method that finds the projection of vector v on the basis vector self """
-        return True
+        """A method that finds the projection of vector v on the basis vector self. 
+           This returns a new vector of the same dimension projected onto the basis vector. """
+        basis_unit = self.find_unit_vector()
+        proj_b = (v1.dot_product(basis_unit))*basis_unit
+        return proj_b
+
+    def find_unit_vector(self): 
+        """ A method that takes a vector and returns its unit vector """
+        # To do this, divide the vector coordinates by the magnitude of the vector 
+        magnitude = Decimal(self.magnitude())
+        unit_vector = [ point/magnitude for point in self.coordinates ]
+        return Vector(unit_vector)
 
     def orhogonal_component(self, v): 
         """A method that returns the orthogonal component or something """
