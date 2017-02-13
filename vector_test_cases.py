@@ -13,8 +13,10 @@ basis_2 = Vector([-2.155, -9.33, -9.473])
 v3 = Vector([3.009, -6.172, 3.692, -2.51])
 basis_3 = Vector([6.404, -9.144, 2.759, 8.718])
 
-print v1
-print 'projection: ', basis_1.get_projection(v1)
+# print 'projection: ', basis_1.get_projection(v1)
+print basis_2.get_projection(v2)
+print 'orthogonal: ', basis_2.orthogonal_component(v2)
+print 'composition: ', v3.decompose_vector(basis_3)
 
 
 # v2 = Vector([-2.029, 9.97, 4.172])

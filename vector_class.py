@@ -17,15 +17,15 @@ class Vector(object):
 
     def add_vector(self, v1): 
         sum_of_vectors = [x+y for x,y in zip(self.coordinates, v1.coordinates)]
-        return sum_of_vectors
+        return Vector(sum_of_vectors)
 
     def subtract_vectors(self, v1): 
         diff_of_vectors = [x-y for x,y in zip(self.coordinates, v1.coordinates)]
-        return diff_of_vectors
+        return Vector(diff_of_vectors)
 
     def scalar_multiplication(self, scalar): 
         new_vector = [Decimal(scalar)*x for x in self.coordinates]
-        return new_vector
+        return Vector(new_vector)
 
     def magnitude(self): 
         return math.sqrt(sum([x**2 for x in self.coordinates]))
@@ -66,12 +66,12 @@ class Vector(object):
         """A method that determines if a vector is a zero vector or not with a default tolerance of 1E-10"""
         return self.magnitude() < tolerance
 
-    def get_projection(self, v): 
+    def get_projection(self, v1): 
         """A method that finds the projection of vector v on the basis vector self. 
            This returns a new vector of the same dimension projected onto the basis vector. """
-        basis_unit = self.find_unit_vector()
-        proj_b = (v1.dot_product(basis_unit))*basis_unit
-        return proj_b
+        new_scalar = Decimal(v1.dot_product(self)) / Decimal(self.magnitude()*self.magnitude())
+        projection = self.scalar_multiplication(new_scalar)
+        return projection
 
     def find_unit_vector(self): 
         """ A method that takes a vector and returns its unit vector """
@@ -80,8 +80,20 @@ class Vector(object):
         unit_vector = [ point/magnitude for point in self.coordinates ]
         return Vector(unit_vector)
 
-    def orhogonal_component(self, v): 
-        """A method that returns the orthogonal component or something """
+    def orthogonal_component(self, v1): 
+        """A method that returns the orthogonal component, which is  
+        equivalent to the vector from the tip of v1 intersecting at 90 degrees
+        with the basis vector, or v1 - projection of v1 onto self (basis) """
+        return self.get_projection(v1).subtract_vectors(v1)
+
+    def decompose_vector(self, basis_vector): 
+        """ A method that decomposes a vector, self, in relation to the basis_vector 
+        by returning the parallel and orthogonal vectors"""
+        vector_parallel = basis_vector.get_projection(self)
+        vector_orthogonal = basis_vector.orthogonal_component(self)
+        print "parallel", vector_parallel
+        print "orthogonal", vector_orthogonal
+        return (vector_parallel, vector_orthogonal)
 
     def __str__(self):
         return 'Vector: {}'.format(self.coordinates)
