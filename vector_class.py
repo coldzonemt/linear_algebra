@@ -66,7 +66,7 @@ class Vector(object):
         """A method that determines if a vector is a zero vector or not with a default tolerance of 1E-10"""
         return self.magnitude() < tolerance
 
-    def get_projection(self, v1): 
+    def parallel_component(self, v1): 
         """A method that finds the projection of vector v on the basis vector self. 
            This returns a new vector of the same dimension projected onto the basis vector. """
         new_scalar = Decimal(v1.dot_product(self)) / Decimal(self.magnitude()*self.magnitude())
@@ -84,12 +84,14 @@ class Vector(object):
         """A method that returns the orthogonal component, which is  
         equivalent to the vector from the tip of v1 intersecting at 90 degrees
         with the basis vector, or v1 - projection of v1 onto self (basis) """
-        return self.get_projection(v1).subtract_vectors(v1)
+        parallel_vector = self.parallel_component(v1)
+        orthogonal_vector = v1.subtract_vectors(parallel_vector)
+        return orthogonal_vector
 
     def decompose_vector(self, basis_vector): 
         """ A method that decomposes a vector, self, in relation to the basis_vector 
         by returning the parallel and orthogonal vectors"""
-        vector_parallel = basis_vector.get_projection(self)
+        vector_parallel = basis_vector.parallel_component(self)
         vector_orthogonal = basis_vector.orthogonal_component(self)
         print "parallel", vector_parallel
         print "orthogonal", vector_orthogonal
